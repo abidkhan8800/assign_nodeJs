@@ -25,19 +25,19 @@ const con = mysql.createConnection({
 let transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "zk7676@gmail.com",
-    pass: "shakir@12"
+    user: "validMailId",
+    pass: "yourPassword"
   }
 });
 
-
-cron.schedule("* * * * *", function() {
+//to check the mailer please replace friday with *,then mailer will mail in every minute.
+cron.schedule("* * * * friday", function() {
   con.query("select email from users where type='patient'",(error,result,field)=>{
     console.log(result.length);
     console.log(result);
     for(let i =0; i<result.length;i++){
       let mailOptions = {
-        from: "zk7676@gmail.com",
+        from: "validmailid@gmail.com",
         to: result[i].email,
         subject: `Regrding the Health Survey Form`,
         text: `Hi there, Please submit your Health Form as soon as possible.
@@ -57,7 +57,26 @@ cron.schedule("* * * * *", function() {
 
 app.get('/',(req, res)=>{res.json('hello')});
 app.post('/login',(req,res) => { login.handleLogin(req, res, con)});
+// { use these credntials test the login
+// 	"email": "mahesh@gmail.com",
+// 	"password": "mahesh@123"
+// }
 app.post('/register',(req,res) => { register.handleRegister(req,res,con)});
+// { you can resgister with your credentials
+// 	"email": "ann@gmail.com",
+// 	"password": "bananas",
+// 	"name": "ann",
+// 	"type": "patient"
+// }
 app.post('/submitform',(req, res) => { submitForm.handleSubmitFrom(req, res, con)});
+// {submit the form
+// 	"name": "rishi",
+// 	"email": "rishi@gmail.com",
+// 	"status": "yes",
+// 	"uid": "3"
+// }
+
 app.get('/getstatus',(req, res) => { getStatus.handleGetStatus(req, res, con)});
-app.listen(3128);
+// to get list of people who have not submitted their survey from use this route
+
+app.listen(port);
