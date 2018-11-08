@@ -1,6 +1,6 @@
 const handleGetStatus= (req, res, con)=>{
   var sql ="select name, email from survey where  status='no' and sdate>=(select subdate(curdate(), interval 14 day)) and sdate<=curdate();"
-  con.query(sql,(error,result,field)=>{
+  con.query(sql,(error,result)=>{
     if(error) {
       throw error;
     }else{

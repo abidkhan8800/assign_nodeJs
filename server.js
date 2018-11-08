@@ -16,28 +16,29 @@ app.use(bodyParser.json());
 
 
 const con = mysql.createConnection({
-  host: "sql12.freemysqlhosting.net",
-  user: "sql12263778",
-  password: "fHuXBCvcck",
-  database: "sql12263778",
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "maheshclinic",
   port: "3306"
 });
 let transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "validMailId",
-    pass: "yourPassword"
+    user: "mail@gmail.com",
+    pass: "password"
   }
 });
 
 //to check the mailer please replace friday with *,then mailer will mail in every minute.
 cron.schedule("* * * * friday", function() {
   con.query("select email from users where type='patient'",(error,result,field)=>{
+    if(error) throw error;
     console.log(result.length);
     console.log(result);
     for(let i =0; i<result.length;i++){
       let mailOptions = {
-        from: "validmailid@gmail.com",
+        from: "mail@gmail.com",
         to: result[i].email,
         subject: `Regrding the Health Survey Form`,
         text: `Hi there, Please submit your Health Form as soon as possible.
@@ -79,4 +80,4 @@ app.post('/submitform',(req, res) => { submitForm.handleSubmitFrom(req, res, con
 app.get('/getstatus',(req, res) => { getStatus.handleGetStatus(req, res, con)});
 // to get list of people who have not submitted their survey from use this route
 
-app.listen(port);
+app.listen(3128);

@@ -8,7 +8,7 @@ const handleRegister = (req,res,con)=>{
 
   }
   console.log(req.body);
-  con.query('INSERT INTO users SET ?',[users], function (error, results, fields) {
+  con.query('INSERT INTO users SET ?',[users], function (error, result, field) {
   if (error) {
     console.log("error ocurred",error);
     res.send({
@@ -16,7 +16,7 @@ const handleRegister = (req,res,con)=>{
       "failed":"error ocurred"
     })
   }else{
-    console.log('The solution is: ', results);
+    console.log('The solution is: ', result);
     res.send({
       "code":200,
       "success":"user registered sucessfully"
