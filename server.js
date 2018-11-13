@@ -32,17 +32,18 @@ let transporter = nodemailer.createTransport({
 
 //to check the mailer please replace friday with *,then mailer will mail in every minute.
 cron.schedule("* * * * friday", function() {
-  con.query("select email from users where type='patient'",(error,result,field)=>{
+  const sql="select email from users where type='patient' and email not in(select email from survey where status='yes' and sdate>=(select subdate(curdate(), interval 7 day)) and sdate<=curdate());"
+  con.query(sql,(error,result,field)=>{
     if(error) throw error;
     console.log(result.length);
-    console.log(result);
+    console.log(result[0].email);
     for(let i =0; i<result.length;i++){
       let mailOptions = {
         from: "mail@gmail.com",
         to: result[i].email,
         subject: `Regrding the Health Survey Form`,
         text: `Hi there, Please submit your Health Form as soon as possible.
-        if you have submitted the form, please ignore this mail..
+        if you have submitted the form
         Dr. Mahesh`
       };
       transporter.sendMail(mailOptions, function(error, info) {

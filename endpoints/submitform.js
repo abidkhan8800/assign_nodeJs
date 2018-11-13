@@ -1,14 +1,14 @@
 const handleSubmitFrom = (req, res, con)=>{
-  const { name, email, status,uid} = req.body;
+  const { name, email, submitstatus,uid} = req.body;
   var survey={
     "name": name,
     "email": email,
-    "status": status,
     "sdate": new Date(),
     "uid": uid
   }
   console.log(req.body);
-  con.query('INSERT INTO survey SET ?',[survey], function (error, result, field) {
+  console.log(survey.sdate);
+  con.query('CALL submitSurveyForm2(?,?,?,?)',[survey.name, survey.email,survey.sdate, survey.uid], function (error, result) {
   if (error) {
     console.log("error ocurred",error);
     res.send({
