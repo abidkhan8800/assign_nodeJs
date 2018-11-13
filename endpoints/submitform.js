@@ -8,7 +8,7 @@ const handleSubmitFrom = (req, res, con)=>{
   }
   console.log(req.body);
   console.log(survey.sdate);
-  con.query('CALL submitSurveyForm2(?,?,?,?)',[survey.name, survey.email,survey.sdate, survey.uid], function (error, result) {
+  con.query('CALL submitSurveyForm(?,?,?,?)',[survey.name, survey.email,survey.sdate, survey.uid], function (error, result) {
   if (error) {
     console.log("error ocurred",error);
     res.send({
