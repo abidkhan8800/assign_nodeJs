@@ -2,7 +2,7 @@ const handleLogin=(req, res, con)=>{
   var email= req.body.email;
   var password = req.body.password;
   console.log(req.body);
-  con.query('SELECT * FROM users WHERE email = ?',[email], function (error, result, field) {
+  con.query('SELECT * FROM users WHERE email = ?',[email], function (error, result) {
   if (error) {
     // console.log("error ocurred",error);
     res.send({
